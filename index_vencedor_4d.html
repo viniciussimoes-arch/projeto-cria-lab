@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Copiloto Comercial & Cross-Sell — Sangfor / Grupo Extreme</title>
+<meta name="theme-color" content="#1573c4" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root{
+  --brand:#1573c4; --brand2:#16b3c9; --brand-dark:#0d4e8a; --accent:#36b54a; --accent2:#7bc62d;
+  --ink:#16202b; --muted:#5b6472; --line:#e3e8ef; --bg:#f2f6fb; --bg2:#e9eff7; --card:#ffffff;
+  --green:#15925e; --green-bg:#e7f6ee; --amber:#b07400; --amber-bg:#fdf3e0; --blue:#1573c4; --blue-bg:#e6f1fb;
+  --purple:#7b2cbf; --purple-bg:#f3e8ff;
+  --radius:16px; --shadow:0 8px 30px rgba(16,40,70,.08); --shadow-lg:0 20px 50px rgba(16,40,70,.15);
+  --font:"Poppins","Inter",sans-serif;
+  --glow:0 0 25px rgba(21,115,196,.35);
+}
+
+body.dark{
+  --ink:#e8f0f8; --muted:#8fa3b8; --line:#1e3042; --bg:#060d14; --bg2:#0c1a28; --card:#0f2130;
+  --brand:#2a9ae0; --brand2:#21d4e8; --brand-dark:#1573c4; --accent:#44d15c;
+  --blue:#2a9ae0; --blue-bg:#0c2236; --green-bg:#0c2a1e; --amber-bg:#2c2410; --purple-bg:#25103a;
+  --shadow:0 8px 30px rgba(0,0,0,.4); --shadow-lg:0 20px 50px rgba(0,0,0,.6);
+  --glow:0 0 30px rgba(42,154,224,.45);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.6;min-height:100vh;transition:background .4s,color .4s;overflow-x:hidden}
+
+/* --- ELEMENTOS DE ANIMACAO 4D/FX --- */
+.bg-glow-sphere{
+  position:fixed;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle, rgba(21,115,196,0.18) 0%, rgba(54,181,74,0.08) 50%, transparent 70%);
+  filter:blur(60px);z-index:-1;pointer-events:none;
+  animation:float4D 18s ease-in-out infinite alternate;
+}
+.bg-glow-sphere-2{
+  position:fixed;right:-100px;bottom:-100px;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle, rgba(123,44,191,0.15) 0%, rgba(22,179,201,0.08) 50%, transparent 70%);
+  filter:blur(70px);z-index:-1;pointer-events:none;
+  animation:float4D2 22s ease-in-out infinite alternate;
+}
+
+@keyframes float4D{
+  0%{transform:translate(0,0) scale(1) rotate(0deg)}
+  50%{transform:translate(80px,50px) scale(1.15) rotate(180deg)}
+  100%{transform:translate(-40px,80px) scale(0.9) rotate(360deg)}
+}
+@keyframes float4D2{
+  0%{transform:translate(0,0) scale(1) rotate(0deg)}
+  50%{transform:translate(-60px,-80px) scale(1.2) rotate(-180deg)}
+  100%{transform:translate(50px,-30px) scale(0.95) rotate(-360deg)}
+}
+
+/* TOPBAR ESTILIZADA */
+.topbar{
+  display:flex;align-items:center;gap:16px;
+  background:rgba(255,255,255,0.75);backdrop-filter:blur(16px) saturate(180%);
+  border-bottom:1px solid var(--line);padding:14px 28px;position:sticky;top:0;z-index:100;
+  box-shadow:0 4px 20px rgba(0,0,0,0.03);
+}
+body.dark .topbar{background:rgba(15,33,48,0.75)}
+
+.brand{display:flex;align-items:center;gap:12px}
+.logo-badge{
+  font-weight:900;color:#fff;
+  background:linear-gradient(135deg,var(--brand),var(--brand2),var(--accent));
+  background-size:200% 200%;animation:gradShift 6s ease infinite;
+  padding:8px 16px;border-radius:12px;font-size:15px;letter-spacing:1px;
+  box-shadow:0 6px 20px rgba(21,115,196,0.35);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.logo-badge::before{content:"🚀";font-size:16px}
+@keyframes gradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+.tag{color:var(--muted);font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}
+.tag::before{content:"•";color:var(--accent);font-size:20px}
+
+.search-wrap{flex:1;max-width:440px;margin-left:auto;position:relative}
+.search-input{
+  width:100%;padding:10px 16px 10px 40px;border:1.5px solid var(--line);border-radius:12px;
+  font-size:13px;background:var(--card);color:var(--ink);transition:all .3s;
+}
+.search-input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px rgba(21,115,196,0.15)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.6}
+
+.theme-toggle{
+  border:1.5px solid var(--line);background:var(--card);color:var(--ink);
+  width:42px;height:42px;border-radius:12px;cursor:pointer;font-size:18px;
+  display:inline-flex;align-items:center;justify-content:center;transition:all .3s;
+}
+.theme-toggle:hover{transform:rotate(15deg) scale(1.08);border-color:var(--brand)}
+
+/* LAYOUT E SIDEBAR */
+.shell{display:flex;max-width:1440px;margin:0 auto;width:100%}
+.sidebar{
+  width:280px;flex:none;height:calc(100vh - 71px);position:sticky;top:71px;
+  overflow-y:auto;background:var(--card);border-right:1px solid var(--line);
+  padding:20px 14px 40px;transition:all .3s;
+}
+.nav-group-title{
+  font-size:11px;font-weight:800;text-transform:uppercase;color:var(--muted);
+  letter-spacing:1.2px;padding:12px 10px 6px;margin-top:6px;
+}
+.sidebar .tab{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  border:none;background:transparent;color:var(--ink);padding:10px 14px;
+  border-radius:12px;font-weight:600;font-size:13.5px;cursor:pointer;margin-bottom:4px;
+  transition:all .25s cubic-bezier(.2,.8,.2,1);position:relative;
+}
+.sidebar .tab:hover{background:var(--bg2);color:var(--brand);transform:translateX(4px)}
+.sidebar .tab.active{
+  background:linear-gradient(135deg,var(--blue-bg),color-mix(in srgb,var(--brand) 12%,transparent));
+  color:var(--brand);font-weight:700;box-shadow:inset 4px 0 0 var(--brand);
+}
+
+.content{flex:1;min-width:0;padding:28px 36px 90px}
+
+/* BANNER HERO 3D COM GLOW */
+.hero{
+  position:relative;background:linear-gradient(135deg,#0d4e8a 0%,#1573c4 50%,#16845a 100%);
+  color:#fff;padding:36px;border-radius:24px;margin-bottom:28px;
+  box-shadow:var(--shadow-lg);overflow:hidden;perspective:1000px;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 20%, rgba(255,255,255,0.2) 0%, transparent 50%);
+  pointer-events:none;
+}
+.hero h1{margin:0 0 10px;font-size:30px;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.hero p{margin:0;opacity:.95;max-width:750px;font-size:15px;line-height:1.6}
+
+/* CARD 3D E BENTO GRID */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;box-shadow:var(--shadow);margin-bottom:22px;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s;
+  position:relative;overflow:hidden;
+}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--brand) 40%,var(--line))}
+
+.card-title-box{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card-title-box h3{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+
+/* BOTÕES ESTILIZADOS */
+.btn-ia{
+  border:none;cursor:pointer;color:#fff;font-weight:700;padding:12px 22px;
+  border-radius:12px;background:linear-gradient(135deg,var(--brand),var(--brand2));
+  box-shadow:0 8px 20px rgba(21,115,196,0.35);transition:all .25s;font-size:14px;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-ia:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 12px 26px rgba(21,115,196,0.45)}
+
+.btn-sec{
+  border:1.5px solid var(--brand);background:transparent;color:var(--brand);
+  font-weight:700;padding:8px 16px;border-radius:10px;cursor:pointer;font-size:13px;
+  transition:all .2s;display:inline-flex;align-items:center;gap:6px;
+}
+.btn-sec:hover{background:var(--blue-bg);transform:translateY(-1px)}
+
+.roi-input{
+  width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;
+  font-size:14px;background:var(--bg2);color:var(--ink);margin-top:6px;transition:all .2s;
+}
+.roi-input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(21,115,196,0.15)}
+
+/* CAIXAS DE MANTRA E TAGS */
+.box-verificar{
+  background:var(--amber-bg);border:1.5px solid color-mix(in srgb,var(--amber) 30%,transparent);
+  color:var(--ink);padding:14px 18px;border-radius:12px;font-size:13.5px;margin:16px 0;font-weight:500;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.box-verificar::before{content:"🛡️";font-size:20px;flex:none}
+
+.tag-verificar{
+  background:#e2e3e5;color:#383d41;padding:3px 8px;border-radius:6px;
+  font-size:11px;font-weight:800;letter-spacing:0.5px;margin-left:6px;border:1px solid #ced4da;
+}
+
+.block{
+  background:var(--card);border:1px solid var(--line);border-left:5px solid var(--brand);
+  border-radius:14px;padding:20px;margin-bottom:18px;box-shadow:var(--shadow);
+  transition:transform .25s,box-shadow .25s;
+}
+.block:hover{transform:translateX(4px);box-shadow:var(--shadow-lg)}
+.block .q{font-weight:700;font-size:16px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+
+.box{border-radius:10px;padding:12px 15px;margin:8px 0;font-size:13.5px;line-height:1.55}
+.box.sol{background:var(--green-bg);color:var(--green);border:1px solid color-mix(in srgb,var(--green) 20%,transparent)}
+.box.pain{background:var(--amber-bg);color:var(--amber);border:1px solid color-mix(in srgb,var(--amber) 20%,transparent)}
+.box.say{background:var(--blue-bg);color:var(--blue);border:1px solid color-mix(in srgb,var(--blue) 20%,transparent)}
+.box.purple{background:var(--purple-bg);color:var(--purple);border:1px solid color-mix(in srgb,var(--purple) 20%,transparent)}
+
+.loader{display:none;font-weight:700;color:var(--brand);margin:16px 0;text-align:center;font-size:15px}
+
+.badge{
+  display:inline-block;background:var(--green-bg);color:var(--green);
+  font-weight:700;font-size:11px;padding:4px 10px;border-radius:8px;margin:2px 4px 6px 0;
+  text-transform:uppercase;letter-spacing:0.5px;
+}
+.badge.blue{background:var(--blue-bg);color:var(--blue)}
+.badge.purple{background:var(--purple-bg);color:var(--purple)}
+
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13.5px}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:var(--bg2);color:var(--muted);font-size:11.5px;text-transform:uppercase;letter-spacing:0.8px;font-weight:700}
+
+/* EFEITO SIMULADOR 4D / GIF INTERATIVO SIMULADO */
+.sim-stage{
+  background:linear-gradient(135deg,#091a2b,#0f3152);color:#fff;border-radius:18px;
+  padding:24px;margin:16px 0;position:relative;overflow:hidden;box-shadow:inset 0 0 30px rgba(0,0,0,0.5);
+}
+.sim-node{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:10px;
+  background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);
+  font-size:13px;font-weight:600;
+}
+.sim-beam{
+  height:3px;background:linear-gradient(90deg,var(--brand),var(--accent));
+  width:100%;margin:16px 0;position:relative;border-radius:3px;overflow:hidden;
+}
+.sim-beam::after{
+  content:"";position:absolute;top:0;left:-50%;width:40%;height:100%;
+  background:linear-gradient(90deg,transparent,#fff,transparent);
+  animation:beamFlow 1.8s linear infinite;
+}
+@keyframes beamFlow{to{left:120%}}
+
+</style>
+</head>
+<body>
+
+<!-- Fundo Animado 4D com Esferas de Luz -->
+<div class="bg-glow-sphere"></div>
+<div class="bg-glow-sphere-2"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo-badge">SANGFOR IA</span>
+    <span class="tag">Copiloto Comercial & Cross-Sell · Grupo Extreme</span>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="global-search" class="search-input" placeholder="Buscar produto, dor, objeção, modelo ou cross-sell..." oninput="filtrarGeral()" />
+  </div>
+  <button class="theme-toggle" onclick="toggleTema()" title="Alternar Modo Claro/Escuro">🌙</button>
+</header>
+
+<div class="shell">
+  <aside class="sidebar">
+    <nav>
+      <div class="nav-group-title">⚡ Automação com IA</div>
+      <button class="tab active" onclick="verAba('proposta', event)">📝 Agente de Propostas (IA)</button>
+      
+      <div class="nav-group-title">🎯 Ferramentas de Venda</div>
+      <button class="tab" onclick="verAba('recomendador', event)">🎯 Recomendador Interativo</button>
+      <button class="tab" onclick="verAba('roi', event)">💰 Simulador de ROI & Economia</button>
+      <button class="tab" onclick="verAba('crosssell', event)">🔗 Cross-Sell no Grupo Extreme</button>
+      
+      <div class="nav-group-title">📚 Argumentação & Biblioteca</div>
+      <button class="tab" onclick="verAba('dores', event)">💢 Dores → Soluções (Exemplos)</button>
+      <button class="tab" onclick="verAba('produtos', event)">📦 Portfólio de Produtos</button>
+      <button class="tab" onclick="verAba('battlecards', event)">⚔️ Battlecards Competitivos</button>
+      <button class="tab" onclick="verAba('objecoes', event)">🛡️ Objeções & Respostas Prontas</button>
+      <button class="tab" onclick="verAba('catalogo', event)">🧰 Catálogo de Modelos (Firewalls)</button>
+    </nav>
+  </aside>
+
+  <main class="content">
+    
+    <!-- ABA 1: GERADOR DE PROPOSTA INTELIGENTE (USIAR) -->
+    <div id="aba-proposta" class="secao-aba">
+      <div class="hero">
+        <h1>📝 Agente de Propostas Inteligente (Mantra USIAR)</h1>
+        <p>Cole as anotações brutas ou resumo da reunião com o cliente. A IA analisa os pontos de dor, seleciona a arquitetura Sangfor ideal, calcula a estimativa de ROI e gera a minuta com os marcadores <b>[verificar]</b> para a conferência e decisão final do vendedor.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title-box">
+          <h3>✍️ Briefing da Reunião Comercial</h3>
+          <div>
+            <button class="btn-sec" onclick="preencherExemplo('ransomware')">⚡ Exemplo: Medo de Ransomware</button>
+            <button class="btn-sec" onclick="preencherExemplo('vmware')">⚡ Exemplo: Troca de VMware</button>
+            <button class="btn-sec" onclick="preencherExemplo('homeoffice')">⚡ Exemplo: Filiais & SASE</button>
+          </div>
+        </div>
+        <textarea id="ia-prompt" class="roi-input" rows="4" placeholder="Cole aqui o resumo da reunião... (ex: Cliente reclama de lentidão na VPN, custos altos com antivírus antigo e medo de parada por hackers)"></textarea>
+        <button onclick="gerarPropostaIA()" class="btn-ia" style="margin-top:16px">✨ Processar com IA & Gerar Proposta Automática (USIAR)</button>
+        <div id="loading" class="loader">🌀 O Claude está analisando o cenário comercial e estruturando a proposta...</div>
+      </div>
+
+      <div id="resultado-proposta"></div>
+    </div>
+
+    <!-- ABA 2: RECOMENDADOR INTERATIVO -->
+    <div id="aba-recomendador" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>🎯 Recomendador de Soluções Inteligente</h1>
+        <p>Clique na dor identificada no cliente para visualizar a arquitetura de solução recomendada e a estratégia de abordagem imediata.</p>
+      </div>
+      <div class="card">
+        <h3>Qual é a prioridade ou dor principal do cliente?</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+          <button class="btn-ia" onclick="mostrarRec('ransomware')">🔒 Medo de Ransomware & Sequestro</button>
+          <button class="btn-ia" onclick="mostrarRec('vmware')" style="background:linear-gradient(135deg,#0d4e8a,#1573c4)">☁️ Aumento de Custos VMware / Broadcom</button>
+          <button class="btn-ia" onclick="mostrarRec('homeoffice')" style="background:linear-gradient(135deg,#16845a,#36b54a)">🌐 VPN Lenta / Filiais & Home Office</button>
+          <button class="btn-ia" onclick="mostrarRec('ti_pequena')" style="background:linear-gradient(135deg,#7b2cbf,#9d4edd)">👨‍💻 TI Pequena / Falta de Monitoramento 24/7</button>
+        </div>
+        <div id="rec-output" style="margin-top:20px"></div>
+      </div>
+    </div>
+
+    <!-- ABA 3: SIMULADOR DE ROI -->
+    <div id="aba-roi" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>💰 Simulador de ROI & Economia Financeira</h1>
+        <p>Calcule a estimativa de redução no Custo Total de Propriedade (TCO) em 3 anos ao migrar de soluções tradicionais para o ecossistema Sangfor.</p>
+      </div>
+      <div class="card">
+        <h3>Calculadora de Economia Comercial</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px">
+          <div>
+            <label>Gasto Anual Atual do Cliente com Licenças/Hardware (R$):</label>
+            <input type="number" id="roi-gasto" class="roi-input" value="180000" />
+          </div>
+          <div>
+            <label>Economia Estimada (% TCO Sangfor):</label>
+            <input type="number" id="roi-pct" class="roi-input" value="35" />
+          </div>
+        </div>
+        <button class="btn-ia" style="margin-top:16px" onclick="calcularROI()">📊 Gerar Gráfico de Economia & Retorno →</button>
+        <div id="roi-resultado" style="margin-top:20px"></div>
+      </div>
+    </div>
+
+    <!-- ABA 4: CROSS-SELL GRUPO EXTREME -->
+    <div id="aba-crosssell" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>🔗 Matriz de Cross-Sell no Grupo Extreme (Meta R$ 1,5BI)</h1>
+        <p>Saiba exatamente o que oferecer da GPS IT para a base de clientes de cada uma das 7 empresas do Grupo Extreme.</p>
+      </div>
+
+      <div class="block searchable">
+        <div class="q">🏛️ Cliente vindo da EDS (Setor Público / Governo)</div>
+        <div class="box sol"><b>Oferecer da GPS IT:</b> Sangfor HCI (Infraestrutura) + SOC/MDR 24/7 (Segurança de Governo).</div>
+        <div class="box say"><b>Abordagem de Venda:</b> "Como a EDS modernizou a gestão digital do seu órgão, a GPS IT garante a sustentação da infraestrutura contra ataques cibernéticos e paralisações."</div>
+        <div class="box purple"><b>Exemplo Prático:</b> Prefeitura ou Secretaria com dados críticos que não podem sofrer *downtime*.</div>
+      </div>
+
+      <div class="block searchable">
+        <div class="q">⚙️ Cliente vindo da EDX (Automação de Processos / ServiceNow)</div>
+        <div class="box sol"><b>Oferecer da GPS IT:</b> Monitoramento NOC 24/7 + Sangfor NGFW (Firewall de Perímetro).</div>
+        <div class="box say"><b>Abordagem de Venda:</b> "Seus processos automatizados só entregam valor se a rede estiver no ar. A GPS IT blinda o perímetro para que a automação rode sem interrupções."</div>
+        <div class="box purple"><b>Exemplo Prático:</b> Empresas com fluxos contínuos de atendimento ou operação industrial.</div>
+      </div>
+
+      <div class="block searchable">
+        <div class="q">💡 Cliente vindo da Beyond (Software Customizado)</div>
+        <div class="box sol"><b>Oferecer da GPS IT:</b> Sangfor HCI (Ambiente de Alta Performance) + Athena EPP.</div>
+        <div class="box say"><b>Abordagem de Venda:</b> "Seu software sob medida precisa rodar sobre uma infraestrutura rápida e resiliente. O HCI da Sangfor entrega o dobro de velocidade com menor custo de servidor."</div>
+      </div>
+    </div>
+
+    <!-- ABA 5: DORES COM MAIS EXEMPLOS -->
+    <div id="aba-dores" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>💢 Biblioteca Completa: Dores Reais → Soluções Sangfor</h1>
+        <p>Exemplos detalhados de relatos do cliente, impacto na operação e o argumento de venda certo.</p>
+      </div>
+
+      <div class="block searchable">
+        <div class="q">1. "Tenho muito medo de ransomware / sequestro de dados e paralisação"</div>
+        <div class="box pain"><b>Cenário do Cliente:</b> Empresa que já ouviu relatos de concorrentes parados ou que guarda dados sensíveis (financeiros/saúde).</div>
+        <div class="box sol"><b>Solução Sangfor:</b> Athena EPP / Endpoint Secure + Athena NGFW.</div>
+        <div class="box say"><b>O que dizer:</b> "A Sangfor detecta e neutraliza o ransomware em até 3 segundos nas máquinas e consegue recuperar os arquivos eventualmente criptografados. É proteção garantida sem resgate."</div>
+      </div>
+
+      <div class="block searchable">
+        <div class="q">2. "A renovação da VMware/Broadcom veio 3x mais cara este ano"</div>
+        <div class="box pain"><b>Cenário do Cliente:</b> Licenciamento forçado em pacotes grandes de assinatura anual sem flexibilidade.</div>
+        <div class="box sol"><b>Solução Sangfor:</b> Sangfor HCI (Virtualização Hiperconvergente).</div>
+        <div class="box say"><b>O que dizer:</b> "Com o Sangfor HCI você escolhe entre licença perpétua ou assinatura flexível. Clientes reais reduziram de 20% a 35% o custo total com migração assistida sem parar a operação."</div>
+      </div>
+
+      <div class="block searchable">
+        <div class="q">3. "Minha equipe de TI tem apenas 2 pessoas e não consegue vigiar a rede 24h"</div>
+        <div class="box pain"><b>Cenário do Cliente:</b> TI sobrecarregada apaga incêndios e não tem tempo para analisar alertas de segurança.</div>
+        <div class="box sol"><b>Solução Sangfor:</b> Athena MDR (Segurança Gerenciada como Serviço).</div>
+        <div class="box say"><b>O que dizer:</b> "Você não precisa contratar um time caro de segurança. Entregamos especialistas monitorando sua empresa 24 horas por dia, 7 dias por semana como serviço."</div>
+      </div>
+
+      <div class="block searchable">
+        <div class="q">4. "Os funcionários reclamam que a VPN é lenta e desconecta toda hora"</div>
+        <div class="box pain"><b>Cenário do Cliente:</b> Equipes em home office ou filiais enfrentando lentidão e chamados constantes na TI.</div>
+        <div class="box sol"><b>Solução Sangfor:</b> Athena SASE (Acesso Seguro na Nuvem).</div>
+        <div class="box say"><b>O que dizer:</b> "Substituímos a VPN tradicional por um agente leve na nuvem com Zero Trust. O acesso fica até 4x mais rápido e gerenciado de um único painel."</div>
+      </div>
+    </div>
+
+    <!-- ABA 6: PORTFOLIO DE PRODUTOS -->
+    <div id="aba-produtos" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>📦 Portfólio de Produtos Sangfor em Detalhes</h1>
+      </div>
+      <div class="grid">
+        <div class="card searchable">
+          <span class="badge">Segurança de Perímetro</span>
+          <h3>Athena NGFW (Firewall)</h3>
+          <p>Inspeção profunda de tráfego com Inteligência Artificial. Bloqueia invasões e vírus antes que entrem na rede corporativa.</p>
+          <div style="margin-top:10px;font-size:12px;color:var(--muted)"><b>Diferencial:</b> Bloqueia até 99% das ameaças com redução de hardware.</div>
+        </div>
+        <div class="card searchable">
+          <span class="badge blue">Infraestrutura Hiperconvergente</span>
+          <h3>Sangfor HCI</h3>
+          <p>Une computação, armazenamento, rede e segurança num único software rodando em servidores padrão (x86).</p>
+          <div style="margin-top:10px;font-size:12px;color:var(--muted)"><b>Diferencial:</b> Alternativa Visionária no Gartner para VMware.</div>
+        </div>
+        <div class="card searchable">
+          <span class="badge purple">Proteção de Dispositivos</span>
+          <h3>Athena EPP / Endpoint Secure</h3>
+          <p>Antivírus de nova geração focado em contenção instantânea de ameaças e resposta automatizada.</p>
+          <div style="margin-top:10px;font-size:12px;color:var(--muted)"><b>Diferencial:</b> Anti-ransomware em 3 segundos.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABA 7: BATTLECARDS COMPETITIVOS -->
+    <div id="aba-battlecards" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>⚔️ Battlecards Competitivos (Sangfor vs. Concorrentes)</h1>
+        <p>Munição comercial para vencer a concorrência sem atacar a marca do cliente.</p>
+      </div>
+
+      <div class="card searchable">
+        <h3>⚡ Sangfor HCI vs. VMware (Broadcom)</h3>
+        <table>
+          <thead><tr><th>Critério</th><th>VMware (Broadcom)</th><th>✅ Sangfor HCI</th></tr></thead>
+          <tbody>
+            <tr><td><b>Modelo de Licença</b></td><td>Apenas assinatura obrigatória em pacotes</td><td>Perpétuo OU Assinatura (Flexível)</td></tr>
+            <tr><td><b>Custo Total (TCO)</b></td><td>Elevado pós-aquisição</td><td>20% a 35% de economia comprovada</td></tr>
+            <tr><td><b>Segurança Nativa</b></td><td>Requer add-ons pagos à parte</td><td>Firewall e WAF embutidos no stack</td></tr>
+            <tr><td><b>Migração de VMs</b></td><td>Complexa</td><td>Ferramenta de migração assistida inclusa</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card searchable">
+        <h3>🛡️ Athena NGFW vs. Fortinet / FortiGate</h3>
+        <table>
+          <thead><tr><th>Critério</th><th>Fortinet</th><th>✅ Athena NGFW</th></tr></thead>
+          <tbody>
+            <tr><td><b>Integração Endpoint</b></td><td>Exige licenças separadas do Fabric</td><td>NGFW + Endpoint conversam nativamente</td></tr>
+            <tr><td><b>Anti-Ransomware</b></td><td>Focado em assinaturas de rede</td><td>Reação conjunta em 3s com restauração</td></tr>
+            <tr><td><b>Gestão</b></td><td>Interface com múltiplos menus</td><td>Painel único e simplificado para TI enxuta</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ABA 8: OBJECOES -->
+    <div id="aba-objecoes" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>🛡️ Objeções Mais Comuns & Respostas Prontas</h1>
+      </div>
+
+      <div class="block searchable">
+        <div class="q">"A Sangfor é uma marca que eu não conheço bem" (Objeção de Confiança)</div>
+        <div class="box say"><b>Responda Assim:</b> "Compreendo perfeitamente. A Sangfor é líder global com mais de 100 mil clientes em 100 países, reconhecida pelo Gartner e Frost & Sullivan, com mais de 3.000 patentes registradas. Podemos agendar uma prova de conceito sem compromisso."</div>
+      </div>
+
+      <div class="block searchable">
+        <div class="q">"Não tenho orçamento este ano para esse investimento" (Objeção de Preço)</div>
+        <div class="box say"><b>Responda Assim:</b> "Vamos olhar o custo total acumulado de 3 anos. Quando somamos a redução de hardware e a consolidação de licenças, a Sangfor se paga e gera economia líquida desde o primeiro ano."</div>
+      </div>
+    </div>
+
+    <!-- ABA 9: CATALOGO DE MODELOS -->
+    <div id="aba-catalogo" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>🧰 Catálogo de Modelos (Firewalls Sangfor M-Series)</h1>
+        <p>Guia rápido para indicar o modelo exato conforme o número de usuários do cliente.</p>
+      </div>
+      <div class="card searchable">
+        <table>
+          <thead><tr><th>Modelo Firewall</th><th>Porte Sugerido</th><th>Nº Máx. Usuários</th><th>Throughput Rede</th></tr></thead>
+          <tbody>
+            <tr><td><b>M5100-AC-I-S</b></td><td>Pequena empresa</td><td>Até 600 usuários</td><td>2 Gbps</td></tr>
+            <tr><td><b>M5200-AC-I</b></td><td>Pequena / Média</td><td>Até 2.000 usuários</td><td>3 Gbps</td></tr>
+            <tr><td><b>M5400-AC-I</b></td><td>Média empresa</td><td>Até 3.000 usuários</td><td>3.6 Gbps</td></tr>
+            <tr><td><b>M5500-AC-I</b></td><td>Média / Grande</td><td>Até 5.000 usuários</td><td>5.8 Gbps</td></tr>
+            <tr><td><b>M6000-AC-I</b></td><td>Grande / Data Center</td><td>Até 15.000 usuários</td><td>8.0 Gbps</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function verAba(nome, evt) {
+  const secoes = document.querySelectorAll('.secao-aba');
+  secoes.forEach(s => s.style.display = 'none');
+  
+  const abaAlvo = document.getElementById('aba-' + nome);
+  if(abaAlvo) abaAlvo.style.display = 'block';
+  
+  document.querySelectorAll('.sidebar .tab').forEach(t => t.classList.remove('active'));
+  if(evt && evt.currentTarget) evt.currentTarget.classList.add('active');
+}
+
+function toggleTema() {
+  document.body.classList.toggle('dark');
+}
+
+function preencherExemplo(tipo) {
+  const prompt = document.getElementById('ia-prompt');
+  if(tipo === 'ransomware') {
+    prompt.value = "Reunião com o Diretor de TI da Empresa Fictícia Alpha (250 funcionários). Estão preocupados com ransomware pois o antivírus atual falhou recentemente. Querem proteção em tempo real e monitoramento.";
+  } else if(tipo === 'vmware') {
+    prompt.value = "Reunião com o Gerente de Infra da Empresa Fictícia Beta. A renovação das licenças VMware veio 3x mais cara pós-Broadcom. Querem migrar para uma solução hiperconvergente mais econômica com 400 máquinas virtuais.";
+  } else {
+    prompt.value = "Reunião com o Coordenador de TI da Empresa Fictícia Gama. Possuem 5 filiais e 80 funcionários em home office. Reclamam de VPN lenta e falta de controle de acesso à internet.";
+  }
+}
+
+function gerarPropostaIA() {
+  const texto = document.getElementById('ia-prompt').value;
+  const res = document.getElementById('resultado-proposta');
+  const load = document.getElementById('loading');
+  
+  if(!texto.trim()) {
+    res.innerHTML = '<div class="box-verificar">⚠️ Por favor, insira algum texto de briefing para a IA analisar.</div>';
+    return;
+  }
+
+  load.style.display = 'block';
+  res.innerHTML = '';
+
+  setTimeout(() => {
+    load.style.display = 'none';
+
+    let produto = "Sangfor HCI (Infraestrutura Hiperconvergente)";
+    let economia = "25% a 35% no TCO total";
+    let motivo = "Substituição de ambiente tradicional de virtualização com redução de custos de licenciamento.";
+
+    if(texto.toLowerCase().includes("ransomware") || texto.toLowerCase().includes("antivírus") || texto.toLowerCase().includes("ataque")) {
+      produto = "Athena EPP / Endpoint Secure + Athena NGFW";
+      economia = "Proteção anti-ransomware com resposta automatizada em 3 segundos";
+      motivo = "Foco em contenção imediata de ameaças e segurança de dispositivos finais.";
+    } else if(texto.toLowerCase().includes("vpn") || texto.toLowerCase().includes("filiais") || texto.toLowerCase().includes("home office")) {
+      produto = "Athena SASE (Acesso Seguro na Nuvem)";
+      economia = "Consolidação de acesso remoto seguro com 40% de redução no tempo de suporte";
+      motivo = "Modernização do acesso remoto e conectividade de filiais com Zero Trust.";
+    }
+
+    res.innerHTML = `
+      <div class="card" style="border-left: 6px solid var(--accent);">
+        <div class="box-verificar">
+          🛡️ <b>MANTRA USIAR:</b> A IA processou o cenário e gerou a minuta técnica abaixo. Todas as especificações técnicas, prazos e valores possuem a marca <b>[verificar]</b> para a sua conferência e decisão final como vendedor.
+        </div>
+
+        <h2>📄 Minuta da Proposta Comercial (Dados Inventados)</h2>
+        <p><b>Cliente Fictício:</b> Empresa Demonstrativa SA <span class="tag-verificar">[verificar CNPJ]</span></p>
+        <p><b>Contato:</b> Responsável Técnico <span class="tag-verificar">[verificar nome/cargo]</span></p>
+        <p><b>Análise da IA:</b> ${motivo}</p>
+        
+        <!-- Simulador 4D Interativo Dentro da Proposta -->
+        <div class="sim-stage">
+          <div style="font-size:12px;color:var(--accent);font-weight:700;margin-bottom:8px">FLUXO DE SEGURANÇA E INFRAESTRUTURA GERADO</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span class="sim-node">💻 Dispositivo Cliente</span>
+            <span class="sim-node" style="border-color:var(--brand)">🛡️ ${produto}</span>
+            <span class="sim-node" style="border-color:var(--accent)">☁️ Cloud / SOC 24/7</span>
+          </div>
+          <div class="sim-beam"></div>
+          <div style="font-size:11px;opacity:0.8;text-align:center">Conexão segura verificada por Inteligência Artificial</div>
+        </div>
+
+        <div class="block">
+          <div class="q">⭐ Solução Recomendada: ${produto}</div>
+          <div class="box sol"><b>Impacto Estimado:</b> ${economia} <span class="tag-verificar">[verificar valores na proposta final]</span></div>
+          <div class="box say"><b>Script de Abordagem WhatsApp:</b> "Olá! Analisei o cenário da sua empresa com nosso Copiloto de IA e estruturei o projeto ideal para ${motivo}. Podemos agendar 15 min para revisar?" <span class="tag-verificar">[verificar envio]</span></div>
+        </div>
+
+        <button class="btn-ia" onclick="alert('Proposta validada! O vendedor conferiu as marcações [verificar] e aprovou o documento.')">✅ Confirmar Validação & Exportar PDF</button>
+      </div>
+    `;
+  }, 1200);
+}
+
+function mostrarRec(tipo) {
+  const out = document.getElementById('rec-output');
+  if(tipo === 'ransomware') {
+    out.innerHTML = `
+      <div class="block">
+        <div class="q">🔒 Solução Recomendada: Athena EPP + Athena NGFW</div>
+        <div class="box sol">Detecta e neutraliza ransomware em 3 segundos nas máquinas e barra invasões no perímetro.</div>
+        <div class="box say"><b>Argumento:</b> "Garantia de recuperação de arquivos sem precisar pagar resgate."</div>
+      </div>`;
+  } else if(tipo === 'vmware') {
+    out.innerHTML = `
+      <div class="block">
+        <div class="q">☁️ Solução Recomendada: Sangfor HCI</div>
+        <div class="box sol">Substituição direta da VMware com economia de 20% a 35% e licença perpétua ou assinatura.</div>
+        <div class="box say"><b>Argumento:</b> "Livre-se dos aumentos imprevisíveis mantendo alta performance."</div>
+      </div>`;
+  } else if(tipo === 'homeoffice') {
+    out.innerHTML = `
+      <div class="block">
+        <div class="q">🌐 Solução Recomendada: Athena SASE</div>
+        <div class="box sol">Acesso seguro Zero Trust para filiais e home office via agente leve na nuvem.</div>
+        <div class="box say"><b>Argumento:</b> "Substitua a VPN lenta por um acesso até 4x mais rápido."</div>
+      </div>`;
+  } else {
+    out.innerHTML = `
+      <div class="block">
+        <div class="q">👨‍💻 Solução Recomendada: Athena MDR (Segurança 24/7)</div>
+        <div class="box sol">Especialistas da Sangfor monitorando a empresa dia e noite como serviço.</div>
+        <div class="box say"><b>Argumento:</b> "Tenha um SOC completo sem precisar contratar mais funcionários."</div>
+      </div>`;
+  }
+}
+
+function calcularROI() {
+  const gasto = parseFloat(document.getElementById('roi-gasto').value) || 0;
+  const pct = parseFloat(document.getElementById('roi-pct').value) || 0;
+  const economiaAno = gasto * (pct / 100);
+  const economia3Anos = economiaAno * 3;
+  const novoGasto = gasto - economiaAno;
+  const fmt = v => v.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+  
+  document.getElementById('roi-resultado').innerHTML = `
+    <div class="block">
+      <div class="q">📊 Comparativo Financeiro Estimado</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:12px 0;text-align:center">
+        <div style="background:var(--bg2);padding:12px;border-radius:10px">
+          <div style="font-size:11px;color:var(--muted)">GASTO ATUAL / ANO</div>
+          <div style="font-size:16px;font-weight:800;color:var(--amber)">${fmt(gasto)}</div>
+        </div>
+        <div style="background:var(--green-bg);padding:12px;border-radius:10px">
+          <div style="font-size:11px;color:var(--green)">ECONOMIA / ANO</div>
+          <div style="font-size:16px;font-weight:800;color:var(--green)">${fmt(economiaAno)}</div>
+        </div>
+        <div style="background:var(--blue-bg);padding:12px;border-radius:10px">
+          <div style="font-size:11px;color:var(--blue)">ECONOMIA 3 ANOS</div>
+          <div style="font-size:16px;font-weight:800;color:var(--blue)">${fmt(economia3Anos)}</div>
+        </div>
+      </div>
+      <div class="box sol">
+        <b>Resumo Comercial:</b> A migração para Sangfor representa uma redução acumulada estimada em <b>${fmt(economia3Anos)}</b> em 3 anos (~${pct}% de economia TCO).
+      </div>
+    </div>
+  `;
+}
+
+function filtrarGeral() {
+  const termo = document.getElementById('global-search').value.toLowerCase();
+  const itens = document.querySelectorAll('.searchable');
+  itens.forEach(it => {
+    const txt = it.innerText.toLowerCase();
+    it.style.display = txt.includes(termo) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
