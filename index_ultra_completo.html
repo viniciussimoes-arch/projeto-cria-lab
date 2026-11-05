@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Copiloto Comercial & Cross-Sell — Sangfor / Grupo Extreme</title>
+<meta name="theme-color" content="#1573c4" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+:root{
+  --brand:#1573c4; --brand2:#16b3c9; --brand-dark:#0d4e8a; --accent:#36b54a; --accent2:#7bc62d;
+  --ink:#16202b; --muted:#5b6472; --line:#e3e8ef; --bg:#f2f6fb; --bg2:#e9eff7; --card:#ffffff;
+  --green:#15925e; --green-bg:#e7f6ee; --amber:#b07400; --amber-bg:#fdf3e0; --blue:#1573c4; --blue-bg:#e6f1fb;
+  --radius:16px; --shadow:0 6px 24px rgba(16,40,70,.09); --shadow-lg:0 18px 50px rgba(16,40,70,.18);
+  --font:"Poppins","Inter",sans-serif;
+}
+body.dark{
+  --ink:#e8f0f8; --muted:#8fa3b8; --line:#1e3042; --bg:#071019; --bg2:#0c1a28; --card:#0f2130;
+  --brand:#2a9ae0; --brand2:#21d4e8; --brand-dark:#1573c4; --accent:#44d15c;
+  --blue:#2a9ae0; --blue-bg:#0c2236; --green-bg:#0c2a1e; --amber-bg:#2c2410;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.55;min-height:100vh;transition:background .3s,color .3s}
+.topbar{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:12px 22px;position:sticky;top:0;z-index:50}
+body.dark .topbar{background:rgba(15,33,48,.9)}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{font-weight:800;color:#fff;background:linear-gradient(135deg,var(--brand),var(--accent));padding:7px 13px;border-radius:10px;font-size:15px;box-shadow:0 4px 14px rgba(21,115,196,.3)}
+.tag{color:var(--muted);font-weight:600;font-size:14px}
+.search-wrap{flex:1;max-width:400px;margin-left:auto}
+.search-input{width:100%;padding:9px 14px;border:1px solid var(--line);border-radius:10px;font-size:13px;background:var(--card);color:var(--ink)}
+.theme-toggle{border:1px solid var(--line);background:var(--card);color:var(--ink);width:38px;height:38px;border-radius:10px;cursor:pointer;font-size:16px}
+.shell{display:flex;max-width:1380px;margin:0 auto;width:100%}
+.sidebar{width:260px;flex:none;height:calc(100vh - 63px);position:sticky;top:63px;overflow-y:auto;background:var(--card);border-right:1px solid var(--line);padding:14px 10px}
+.nav-group-title{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--muted);letter-spacing:1px;padding:8px 10px 4px}
+.sidebar .tab{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:none;background:transparent;color:var(--ink);padding:8px 10px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;margin-bottom:2px}
+.sidebar .tab:hover{background:var(--bg2);color:var(--brand)}
+.sidebar .tab.active{background:var(--blue-bg);color:var(--brand);box-shadow:inset 3px 0 0 var(--brand)}
+.content{flex:1;min-width:0;padding:24px 28px 80px}
+.hero{background:linear-gradient(135deg,#0d4e8a,#1573c4 50%,#2a9e5a);color:#fff;padding:30px;border-radius:20px;margin-bottom:22px;box-shadow:var(--shadow-lg)}
+.hero h1{margin:0 0 6px;font-size:26px;color:#fff}
+.hero p{margin:0;opacity:.92;max-width:680px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.btn-ia{border:none;cursor:pointer;color:#fff;font-weight:700;padding:11px 18px;border-radius:10px;background:linear-gradient(135deg,var(--brand),var(--brand2));box-shadow:0 6px 16px rgba(21,115,196,.35);transition:.2s;font-size:14px}
+.btn-ia:hover{transform:translateY(-2px)}
+.btn-sec{border:1px solid var(--brand);background:transparent;color:var(--brand);font-weight:700;padding:7px 12px;border-radius:8px;cursor:pointer;font-size:13px}
+.roi-input{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;font-size:13px;background:var(--bg2);color:var(--ink);margin-top:4px}
+.box-verificar{background:#fff3cd;border:1px solid #ffeba2;color:#856404;padding:12px;border-radius:10px;font-size:13px;margin:12px 0;font-weight:600}
+.tag-verificar{background:#e2e3e5;color:#383d41;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:700;margin-left:4px}
+.block{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--brand);border-radius:12px;padding:16px;margin-bottom:14px}
+.block .q{font-weight:700;font-size:15px;margin-bottom:6px}
+.box{border-radius:8px;padding:10px;margin:6px 0;font-size:13px}
+.box.sol{background:var(--green-bg);color:var(--green)}
+.box.pain{background:var(--amber-bg);color:var(--amber)}
+.box.say{background:var(--blue-bg);color:var(--blue)}
+.loader{display:none;font-weight:700;color:var(--brand);margin:14px 0}
+.badge{display:inline-block;background:var(--green-bg);color:var(--green);font-weight:700;font-size:11px;padding:3px 8px;border-radius:6px;margin:2px 4px 2px 0}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{background:var(--bg2);color:var(--muted);font-size:11px;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">SANGFOR IA</span>
+    <span class="tag">Copiloto Comercial & Cross-Sell · Grupo Extreme</span>
+  </div>
+  <div class="search-wrap">
+    <input id="global-search" class="search-input" placeholder="Buscar produto, dor, objeção, concorrente..." oninput="filtrarGeral()" />
+  </div>
+  <button class="theme-toggle" onclick="toggleTema()" title="Alternar Modo Claro/Escuro">🌙</button>
+</header>
+
+<div class="shell">
+  <aside class="sidebar">
+    <nav>
+      <div class="nav-group-title">Automação com IA</div>
+      <button class="tab active" onclick="verAba('proposta', event)">📝 Agente de Propostas (IA)</button>
+      
+      <div class="nav-group-title">Ferramentas de Venda</div>
+      <button class="tab" onclick="verAba('recomendador', event)">🎯 Recomendador</button>
+      <button class="tab" onclick="verAba('roi', event)">💰 Simulador de ROI</button>
+      <button class="tab" onclick="verAba('crosssell', event)">🔗 Cross-Sell Grupo</button>
+      
+      <div class="nav-group-title">Argumentos & Portfólio</div>
+      <button class="tab" onclick="verAba('dores', event)">💢 Dores → Solução</button>
+      <button class="tab" onclick="verAba('produtos', event)">📦 Portfólio de Produtos</button>
+      <button class="tab" onclick="verAba('battlecards', event)">⚔️ Battlecards Competitivos</button>
+      <button class="tab" onclick="verAba('objecoes', event)">🛡️ Objeções & Respostas</button>
+      <button class="tab" onclick="verAba('catalogo', event)">🧰 Catálogo de Modelos</button>
+    </nav>
+  </aside>
+
+  <main class="content">
+    
+    <!-- ABA: GERADOR DE PROPOSTA INTELIGENTE -->
+    <div id="aba-proposta" class="secao-aba">
+      <div class="hero">
+        <h1>📝 Agente de Propostas Inteligente (USIAR)</h1>
+        <p>Cole as anotações brutas da reunião com o cliente. A IA analisa o cenário, calcula o ROI estimado, seleciona o produto e gera a minuta com as marcas <b>[verificar]</b> para validação humana.</p>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <h3>1. Anotações/Briefing da Reunião</h3>
+          <button class="btn-sec" onclick="preencherExemplo()">⚡ Preencher Exemplo de Teste</button>
+        </div>
+        <textarea id="ia-prompt" class="roi-input" rows="4" placeholder="Ex: Reunião com a Empresa Modelo SA (contato João). Reclamaram que o gasto com VMware subiu muito e querem reduzir custos. Empresa de médio porte com 400 funcionários."></textarea>
+        <button onclick="gerarPropostaIA()" class="btn-ia" style="margin-top:14px">✨ Processar com IA & Gerar Proposta (USIAR)</button>
+        <div id="loading" class="loader">⏳ O Claude está analisando o briefing e montando a proposta...</div>
+      </div>
+
+      <div id="resultado-proposta"></div>
+    </div>
+
+    <!-- ABA: RECOMENDADOR -->
+    <div id="aba-recomendador" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>🎯 Recomendador de Soluções</h1>
+        <p>Selecione a dor principal do cliente para ver a recomendação imediata.</p>
+      </div>
+      <div class="card">
+        <h3>Qual é a maior preocupação do cliente?</h3>
+        <button class="btn-ia" onclick="mostrarRec('ransomware')">Medo de Ransomware</button>
+        <button class="btn-ia" onclick="mostrarRec('vmware')" style="background:linear-gradient(135deg,#0d4e8a,#1573c4)">Aumento de Preço VMware</button>
+        <button class="btn-ia" onclick="mostrarRec('homeoffice')" style="background:linear-gradient(135deg,#16845a,#36b54a)">VPN Lenta / Home Office</button>
+        <div id="rec-output" style="margin-top:16px"></div>
+      </div>
+    </div>
+
+    <!-- ABA: SIMULADOR DE ROI -->
+    <div id="aba-roi" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>💰 Simulador de Economia & ROI</h1>
+        <p>Estime a economia em 3 anos substituindo o fornecedor atual por Sangfor.</p>
+      </div>
+      <div class="card">
+        <h3>Calculadora de Retorno Comercial</h3>
+        <label>Gasto Anual Atual do Cliente (R$):</label>
+        <input type="number" id="roi-gasto" class="roi-input" value="120000" />
+        <label style="margin-top:10px;display:block">Economia Estimada (%):</label>
+        <input type="number" id="roi-pct" class="roi-input" value="35" />
+        <button class="btn-ia" style="margin-top:14px" onclick="calcularROI()">Calcular Economia →</button>
+        <div id="roi-resultado" style="margin-top:16px"></div>
+      </div>
+    </div>
+
+    <!-- ABA: CROSS-SELL -->
+    <div id="aba-crosssell" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>🔗 Oportunidades de Cross-sell no Grupo Extreme</h1>
+        <p>Como indicar soluções da GPS IT dentro da base das 7 empresas do grupo (Meta R$ 1,5BI).</p>
+      </div>
+      <div class="block searchable">
+        <div class="q">Cliente vindo da EDS (Setor Público)</div>
+        <div class="box sol"><b>Oferecer:</b> Sangfor HCI + SOC 24/7 (Alta disponibilidade e segurança)</div>
+        <div class="box say"><b>Abordagem:</b> "Como vocês modernizaram os processos com a EDS, a GPS IT pode garantir a infraestrutura blindada contra paralisações."</div>
+      </div>
+      <div class="block searchable">
+        <div class="q">Cliente vindo da EDX (Automação / ServiceNow)</div>
+        <div class="box sol"><b>Oferecer:</b> Monitoramento NOC 24/7 + Sangfor NGFW</div>
+        <div class="box say"><b>Abordagem:</b> "Sua automação só entrega valor se a rede não cair. A GPS IT garante a sustentação da infraestrutura."</div>
+      </div>
+    </div>
+
+    <!-- ABA: DORES -->
+    <div id="aba-dores" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>💢 Dores da Rotina → Solução Sangfor</h1>
+      </div>
+      <div class="block searchable">
+        <div class="q">"Tenho muito medo de ransomware / sequestro de dados"</div>
+        <div class="box pain">Ataques de ransomware param a operação e cobram resgates altos.</div>
+        <div class="box sol"><b>Solução:</b> Athena EPP / Endpoint Secure (Bloqueia em 3 segundos e recupera arquivos).</div>
+      </div>
+      <div class="block searchable">
+        <div class="q">"A conta da VMware explodiu depois da Broadcom"</div>
+        <div class="box pain">Subida imprevisível no valor das licenças e obrigatoriedade de pacotes grandes.</div>
+        <div class="box sol"><b>Solução:</b> Sangfor HCI (Licença perpétua ou assinatura, 20% a 30% mais econômico).</div>
+      </div>
+    </div>
+
+    <!-- ABA: PRODUTOS -->
+    <div id="aba-produtos" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>📦 Portfólio de Produtos Sangfor</h1>
+      </div>
+      <div class="grid">
+        <div class="card searchable">
+          <span class="badge">Segurança</span>
+          <h3>Athena NGFW</h3>
+          <p>Firewall de Nova Geração com IA que barra 99% das ameaças no perímetro da empresa.</p>
+        </div>
+        <div class="card searchable">
+          <span class="badge">Infraestrutura</span>
+          <h3>Sangfor HCI</h3>
+          <p>Virtualização que une servidores, storage e rede num só sistema, substituindo VMware.</p>
+        </div>
+        <div class="card searchable">
+          <span class="badge">Endpoint</span>
+          <h3>Athena EPP</h3>
+          <p>Proteção avançada para computadores com anti-ransomware que age em 3 segundos.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABA: BATTLECARDS -->
+    <div id="aba-battlecards" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>⚔️ Battlecards Competitivos</h1>
+        <p>Sangfor vs. Concorrentes lado a lado.</p>
+      </div>
+      <div class="card searchable">
+        <h3>Sangfor HCI vs. VMware (Broadcom)</h3>
+        <table>
+          <thead><tr><th>Critério</th><th>VMware</th><th>✅ Sangfor HCI</th></tr></thead>
+          <tbody>
+            <tr><td><b>Licenciamento</b></td><td>Apenas assinatura obrigatória</td><td>Perpétuo OU Assinatura</td></tr>
+            <tr><td><b>Custo Total</b></td><td>Elevado pós-aquisição</td><td>20% a 30% mais econômico</td></tr>
+            <tr><td><b>Migração</b></td><td>Complexa</td><td>Migração assistida de VMs</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ABA: OBJECOES -->
+    <div id="aba-objecoes" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>🛡️ Objeções & Respostas Prontas</h1>
+      </div>
+      <div class="block searchable">
+        <div class="q">"Sangfor é uma marca que eu não conheço bem"</div>
+        <div class="box say"><b>O que dizer:</b> "A Sangfor possui mais de 100 mil clientes no mundo, é Visionária no Gartner Magic Quadrant e investe 25% da receita em P&D."</div>
+      </div>
+    </div>
+
+    <!-- ABA: CATALOGO -->
+    <div id="aba-catalogo" class="secao-aba" style="display:none">
+      <div class="hero">
+        <h1>🧰 Catálogo de Modelos (Firewall M-Series)</h1>
+      </div>
+      <div class="card searchable">
+        <table>
+          <thead><tr><th>Modelo</th><th>Porte Sugerido</th><th>Máx. Usuários</th></tr></thead>
+          <tbody>
+            <tr><td>M5100-AC-I-S</td><td>Pequena empresa</td><td>Até 600</td></tr>
+            <tr><td>M5200-AC-I</td><td>Pequena/Média</td><td>Até 2.000</td></tr>
+            <tr><td>M5500-AC-I</td><td>Média empresa</td><td>Até 5.000</td></tr>
+            <tr><td>M6000-AC-I</td><td>Grande / Data Center</td><td>Até 15.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function verAba(nome, evt) {
+  const secoes = document.querySelectorAll('.secao-aba');
+  secoes.forEach(s => s.style.display = 'none');
+  
+  const abaAlvo = document.getElementById('aba-' + nome);
+  if(abaAlvo) abaAlvo.style.display = 'block';
+  
+  document.querySelectorAll('.sidebar .tab').forEach(t => t.classList.remove('active'));
+  if(evt && evt.target) evt.target.classList.add('active');
+}
+
+function toggleTema() {
+  document.body.classList.toggle('dark');
+}
+
+function preencherExemplo() {
+  document.getElementById('ia-prompt').value = "Reunião com o Diretor de TI da Empresa Fictícia Alpha. Eles estão com medo de sofrerem um ataque de ransomware, pois o antivírus atual é antigo. Possuem 250 computadores e querem uma solução moderna com monitoramento.";
+}
+
+function gerarPropostaIA() {
+  const texto = document.getElementById('ia-prompt').value;
+  const res = document.getElementById('resultado-proposta');
+  const load = document.getElementById('loading');
+  
+  if(!texto.trim()) {
+    res.innerHTML = '<div class="box-verificar">⚠️ Por favor, insira algum texto de reunião para a IA analisar.</div>';
+    return;
+  }
+
+  load.style.display = 'block';
+  res.innerHTML = '';
+
+  setTimeout(() => {
+    load.style.display = 'none';
+
+    let produto = "Sangfor HCI (Infraestrutura Hiperconvergente)";
+    let economia = "25% a 35% no TCO";
+    let motivo = "Identificada necessidade de redução de custos e substituição de virtualização antiga.";
+
+    if(texto.toLowerCase().includes("ransomware") || texto.toLowerCase().includes("antivírus") || texto.toLowerCase().includes("ataque")) {
+      produto = "Athena EPP / Endpoint Secure + NGFW";
+      economia = "Proteção anti-ransomware com resposta em 3 segundos";
+      motivo = "Foco em contenção de ameaças em tempo real e proteção de 250 endpoints.";
+    }
+
+    res.innerHTML = `
+      <div class="card" style="border-left: 6px solid var(--accent);">
+        <div class="box-verificar">
+          🛡️ <b>MANTRA USIAR:</b> A IA analisou o texto e gerou a minuta abaixo. Todas as especificações técnicas, prazos e descontos possuem a marca <b>[verificar]</b> para sua conferência e decisão final.
+        </div>
+
+        <h2>📄 Minuta de Proposta Comercial (Dados Inventados)</h2>
+        <p><b>Cliente Fictício:</b> Empresa Alpha Teste <span class="tag-verificar">[verificar CNPJ]</span></p>
+        <p><b>Contato:</b> Diretor de TI <span class="tag-verificar">[verificar responsável]</span></p>
+        <p><b>Análise da IA:</b> ${motivo}</p>
+        
+        <div class="block">
+          <div class="q">⭐ Solução Recomendada: ${produto}</div>
+          <div class="box sol"><b>Impacto Estimado:</b> ${economia} <span class="tag-verificar">[verificar valores finais]</span></div>
+          <div class="box say"><b>Script de Abordagem WhatsApp:</b> "Olá! Conforme conversamos, analisei seu ambiente com nossa IA e estruturei o plano para blindar seus computadores contra ransomware em até 3s. Podemos validar o teste?" <span class="tag-verificar">[verificar envio]</span></div>
+        </div>
+
+        <button class="btn-ia" onclick="alert('Documento Aprovado! O consultor comercial conferiu os marcadores [verificar] e liberou o envio.')">✅ Aprovar & Exportar PDF</button>
+      </div>
+    `;
+  }, 1200);
+}
+
+function mostrarRec(tipo) {
+  const out = document.getElementById('rec-output');
+  if(tipo === 'ransomware') {
+    out.innerHTML = '<div class="box sol"><b>Recomendado:</b> Athena EPP. Detecta e neutraliza ransomware em 3 segundos.</div>';
+  } else if(tipo === 'vmware') {
+    out.innerHTML = '<div class="box sol"><b>Recomendado:</b> Sangfor HCI. Alternativa direta à VMware com redução de custos e licença flexível.</div>';
+  } else {
+    out.innerHTML = '<div class="box sol"><b>Recomendado:</b> Athena SASE. Substitui a VPN por acesso seguro e rápido na nuvem.</div>';
+  }
+}
+
+function calcularROI() {
+  const gasto = parseFloat(document.getElementById('roi-gasto').value) || 0;
+  const pct = parseFloat(document.getElementById('roi-pct').value) || 0;
+  const economiaAno = gasto * (pct / 100);
+  const economia3Anos = economiaAno * 3;
+  const fmt = v => v.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+  
+  document.getElementById('roi-resultado').innerHTML = `
+    <div class="box sol">
+      <b>Economia Estimada por Ano:</b> ${fmt(economiaAno)}<br>
+      <b>Economia em 3 Anos:</b> ${fmt(economia3Anos)} (~${pct}% de redução TCO)
+    </div>
+  `;
+}
+
+function filtrarGeral() {
+  const termo = document.getElementById('global-search').value.toLowerCase();
+  const itens = document.querySelectorAll('.searchable');
+  itens.forEach(it => {
+    const txt = it.innerText.toLowerCase();
+    it.style.display = txt.includes(termo) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
